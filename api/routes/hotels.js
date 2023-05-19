@@ -1,78 +1,20 @@
 import express from 'express'
 import Hotel from '../models/Hotel.js'
+import { createHotel, deleteHotel, getAllHotel, getHotel, updateHotel } from '../controllers/hotel.js';
 const router = express.Router();
 
 //create
-router.post("/", async(req,res,next)=>{
-    const newHotel = new Hotel(req.body);
-
-    try{
-        console.log("Se ha creado un nuevo hotel")
-        next()
-        const savedHotel= await newHotel.save();
-        res.status(200).json(savedHotel);
-    }catch(err){
-        res.json(err.message);
-        
-    }
-});
+router.post("/", createHotel);
 //Update
-router.put("/:id", async(req,res,next)=>{
-    try
-    {
-        console.log("Se a actualizado un registro")
-        next()
-        const updatedHotel= await Hotel.findByIdAndUpdate(req.params.id, 
-            {$set: req.body},
-            {new: true}
-            );
-        res.status(200).json(updatedHotel);
-    }catch(err){
-        res.status(err.message);    
-    }
-});
+router.put("/:id", updateHotel);
 
 //Delate
-router.delete("/:id", async(req,res,next)=>{
-    try
-    {
-        console.log("Se a actualizado un registro")
-        next()
-        await Hotel.findByIdAndDelete(req.params.id);
-        res.status(200).json("Hotel eliminado");
-    }catch(err){
-        res.status(err.message);    
-    }
-});
+router.delete("/:id", deleteHotel);
 
 //Get
-router.get("/:id", async(req,res,next)=>{
-    try
-    {
-        const hotel= await Hotel.findById(
-            req.params.id
-        );
-        res.status(200).json(hotel);
-        console.log("Registro existe")
-        next()
-    }catch(err){
-        res.status(err.message);
-        console.log("Registro no existe")
-        next()    
-    }
-});
+router.get("/:id", getHotel)
 
 //Get All
-router.get("/", async(req,res,next)=>{
-    console.log("Ruta de hotel")
-    next()
-    try
-    {
-        const hotels= await Hotel.find()
-        res.status(200).json(hotels);
-    }catch(err){
-        res.status(err.message);    
-    }
-});
+router.get("/",getAllHotel);
 
 export default router
