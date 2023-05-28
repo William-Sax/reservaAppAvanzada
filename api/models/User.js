@@ -19,38 +19,6 @@ const UserShema = new mongoose.Schema({
         required:true
     },
     //Ciudad
-    city:{
-        type:'String',
-        
-    },
-    //Direccion
-    address:{
-        type:'String',
-        
-    },
-    //Distancia
-    distance:{
-        type:'String',
-    },
-    //Fotos
-    photos:{
-        type:'String',
-    },
-    //Clasificacion
-    rating:{
-        type:Number,
-        min:0,
-        max:5
-    },
-    //Habitaciones
-    rooms:{
-        type:[String],
-    },
-    //El precio mas barato
-    chapestPrice:{
-        type:Number,
-    },
-
     isAdmin:{
         type:Boolean,
         default:false

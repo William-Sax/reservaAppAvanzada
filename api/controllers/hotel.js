@@ -1,4 +1,5 @@
 import Hotel from '../models/Hotel.js'
+import { createError } from '../utils/error.js';
 
 export const createHotel =async(req,res,next)=>{
     const newHotel = new Hotel(req.body);
@@ -9,7 +10,7 @@ export const createHotel =async(req,res,next)=>{
         console.log("Se ha creado un nuevo hotel")
         next()
     }catch(err){
-        res.json(err.message);
+        next(err)
         
     }
 }
@@ -25,7 +26,7 @@ export const updateHotel =async(req,res,next)=>{
             );
         res.status(200).json(updatedHotel);
     }catch(err){
-        res.status(err.message);    
+        next(err)  
     }
 };
 //delete
@@ -37,7 +38,7 @@ export const deleteHotel =async(req,res,next)=>{
         await Hotel.findByIdAndDelete(req.params.id);
         res.status(200).json("Hotel eliminado");
     }catch(err){
-        res.status(err.message);    
+        next(err)   
     }
 }
 //get All
@@ -48,7 +49,7 @@ export const getAllHotel =async(req,res,next)=>{
         res.status(200).json(hotels);
         console.log("Registros encontrados")
     }catch(err){
-        res.status(err.message);
+        next(err)
         console.log(err.message);
     }
 }
@@ -63,9 +64,9 @@ export const getHotel =async(req,res,next)=>{
         console.log("Registro Encontrado")
         return next()
     }catch(err){
-        res.status(err.message);
+        next(err)  
         console.log("Registro no existe")
-        return next()    
+         
     }
     
 }
